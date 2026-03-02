@@ -11,13 +11,23 @@ function EmployeeModal({ employee } : EmployeeProps) {
 
     }
 
+    let imgArr: string[] = [];
+        
+    if(employee.imgPath) {
+        imgArr = JSON.parse(employee.imgPath);
+    }
+
     return(
         <div>
             <div>
                 <h3 className="text-black">{employee.name}</h3>
             </div>
             <div>
-
+                {
+                    imgArr.map((path) => {
+                        return <img src={`file:///${path.replace(/\\/g, '/')}`} />;
+                    })
+                }
             </div>
             <button onClick={handleSelectImage}>
                 Add Images

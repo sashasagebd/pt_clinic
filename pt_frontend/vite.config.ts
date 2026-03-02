@@ -8,4 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: './', // Ensure correct asset paths in production
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  }
 })
