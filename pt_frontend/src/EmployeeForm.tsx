@@ -9,17 +9,19 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
     const [name, setName] = useState<string>("");
     const [imagePath, setImagePath] = useState<string>("") //change to arr of strings later
     const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
+    const [imgArr, setImgArr] = useState<string[]>([]);
 
     const employeeTypes = [
         {id: 1, label: 'Practicum'},
         {id: 2, label: 'Observation'},
         {id: 3, label: 'Intern'},
-    ]
+    ];
 
     async function handleSelectImage() { //trigger electron file picker stuff
         const path = await window.api.addImage();
         if(path) {
             setImagePath(path);
+            setImgArr(JSON.parse(path))
         }
     }
 
@@ -29,7 +31,12 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
     }
 
     function handleSubmit() {
-        submitEmployeeData({name, imgPath: imagePath})
+        const selectedType = employeeTypes.find(
+            type => type.id === selectedEmployeeType
+        );
+
+        const type = selectedType?.label ?? "";
+        submitEmployeeData({name, imgPath: imagePath, type});
     }
 
     return(
@@ -48,6 +55,20 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
                         {type.label}
                     </label>
                 ))}
+
+                <div className="grid grid-cols-4 gap-4">
+                {
+                    imgArr.map((path, index) => {
+                        return(
+                            <img 
+                                key={index} 
+                                src={`file:///${path.replace(/\\/g, '/')}`} 
+                                className="w-full h-auto"
+                            />
+                        )
+                    })
+                }
+                </div>
 
                 <button type="button" onClick={handleSelectImage}>Add Images</button><br/>
                 

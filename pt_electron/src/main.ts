@@ -71,9 +71,9 @@ ipcMain.handle('get-employees', () => {
   return db.prepare('SELECT * FROM employees').all();
 });
 
-ipcMain.handle('add-employee', (event, employee: { name: string; imgPath: string }) => {
-  const stmt = db.prepare('INSERT INTO employees (name, imagePath) VALUES (?, ?)');
-  stmt.run(employee.name, employee.imgPath);
+ipcMain.handle('add-employee', (event, employee: { name: string; imgPath: string; type: string }) => {
+  const stmt = db.prepare('INSERT INTO employees (name, imagePath, type) VALUES (?, ?, ?)');
+  stmt.run(employee.name, employee.imgPath, employee.type);
 });
 
 ipcMain.handle('remove-employee', (event, id: number) => {

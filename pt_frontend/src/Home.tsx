@@ -16,7 +16,6 @@ function Home() {
     const [checked, setChecked] = useState<Employee[]>([]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
-    const [matchedEmployees, setMatchedEmployees] = useState<Employee[]>([]); 
 
     //const arr = [Practicum, Observation, Internship];
 
@@ -26,10 +25,10 @@ function Home() {
             const mapped = employeeArray.map(e => ({
                 id: e.id,
                 name: e.name,
-                imgPath: e.imagePath || ''
+                imgPath: e.imagePath || '',
+                type: e.type,
             }));
             setEmployees(mapped);
-            setMatchedEmployees(mapped);
         };
 
         loadEmployees();
@@ -41,28 +40,17 @@ function Home() {
 
     async function handleAddEmployee(newEmployee: NewEmployee) {
         await window.api.addEmployee(newEmployee);
-        const employeeArray = await window.api.getEmployees();
-        const mapped = employeeArray.map(e => ({
-            id: e.id,
-            name: e.name,
-            imgPath: e.imagePath || ''
-        }));
-        setEmployees(mapped);
+        setShowAddEmployee(false);
+        triggerRefresh();
     }
 
     async function handleRemoveEmployee(employee: Employee) {
         await window.api.removeEmployee(employee.id);
-        const employeeArray = await window.api.getEmployees();
-        const mapped = employeeArray.map(e => ({
-            id: e.id,
-            name: e.name,
-            imgPath: e.imagePath || ''
-        }));
-        setEmployees(mapped);
+        triggerRefresh();
     }
 
     function handleChecked(employee: Employee) {
-        if(checked.includes(employee)) {
+        if(checked.some(emp => emp.id === employee.id)) {
             const newArr = checked.filter(emp => emp.id !== employee.id);
             setChecked(newArr);
         }
@@ -73,13 +61,11 @@ function Home() {
        
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setSearch(e.target.value);
-        if(e.target.value === "") {
-            setMatchedEmployees(employees);
-        }
-        else {
-            setMatchedEmployees(employees.filter(employee => employee.name.toLowerCase().includes(search.toLowerCase())));
-        }
     }
+
+    const filteredEmployees = employees.filter(employee =>
+        employee.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     //map cards w employees
     return(
@@ -95,10 +81,10 @@ function Home() {
             
             <div className="flex flex-col gap-4">
                 {
-                matchedEmployees.map((employee) => {   
+                filteredEmployees.map((employee) => {   
                     return (
                         <div key={employee.id} className="grid grid-cols-[1fr_4fr_1fr] items-center gap-2">
-                            <input type="checkbox" checked={checked.includes(employee)} onClick={() => {handleChecked(employee)}} />
+                            <input type="checkbox" checked={checked.some(emp => emp.id === employee.id)} onClick={() => {handleChecked(employee)}} />
                             <Card 
                                 onClick={ () => 
                                 { 

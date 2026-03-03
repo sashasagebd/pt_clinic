@@ -13,9 +13,12 @@ function EmployeeModal({ employee, triggerRefresh } : EmployeeProps) {
     const [currentImage, setCurrentImage] = useState<string>("");
 
     useEffect(() => {
-        if(employee.imgPath) {
-            setImgArr(JSON.parse(employee.imgPath));
+        async function getPath() {
+            if(employee.imgPath) {
+                setImgArr(JSON.parse(employee.imgPath));
+            }
         }
+        getPath();
     }, [employee.imgPath])
 
     async function handleSelectImage(id: number, imgPath: string) { //trigger electron file picker stuff
@@ -30,6 +33,7 @@ function EmployeeModal({ employee, triggerRefresh } : EmployeeProps) {
         <div className="">
             <div>
                 <h3 className="text-black">{employee.name}</h3>
+                <p>{employee.type}</p>
             </div>
             <div className="grid grid-cols-4 gap-4">
                 {
