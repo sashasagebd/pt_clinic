@@ -95,7 +95,6 @@ function Home() {
             
             <div className="flex flex-col gap-4">
                 {
-                
                 matchedEmployees.map((employee) => {   
                     return (
                         <div key={employee.id} className="grid grid-cols-[1fr_4fr_1fr] items-center gap-2">
