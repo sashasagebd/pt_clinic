@@ -9,6 +9,7 @@ declare global {
             addEmployee: (employee: { name: string; imgPath: string }) => void;
             addImage: () => Promise<string | null>;
             removeEmployee: (id: number) => void;
+            addImageExisting: (id: number, imgPath: string) => Promise<string | null>;
         }
     }
 }

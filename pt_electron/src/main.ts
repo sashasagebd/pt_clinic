@@ -82,6 +82,50 @@ ipcMain.handle('remove-employee', (event, id: number) => {
   stmt.run(id);
 })
 
+ipcMain.handle('add-image-existing', async (event, id: number, imgPath: string) => {
+  const win = BrowserWindow.fromWebContents(event.sender); //ensure dev mode works
+
+  const result = await dialog.showOpenDialog(win!, {
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+      { name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp'] }
+    ]
+  });
+
+  if(result.canceled) {
+    return null;
+  }
+
+  let imagePaths: string[] = JSON.parse(imgPath);
+
+  for(let originalPath of result.filePaths) {
+    const imagesDir = path.join(app.getPath('userData'), 'images');
+
+    if(!fs.existsSync(imagesDir)) {
+      fs.mkdirSync(imagesDir, { recursive: true }); //make image subfolder if doesnt exist
+    }
+
+    const fileName = path.basename(originalPath);
+    const newPath = path.join(imagesDir, fileName);
+
+    fs.copyFileSync(originalPath, newPath); //copy images over
+
+    imagePaths.push(newPath);
+  }
+
+  const imageJSON = JSON.stringify(imagePaths);
+
+  const stmt = db.prepare(`
+    UPDATE employees
+    SET imagePath = ?
+    WHERE id = ?
+  `);
+
+  stmt.run(imageJSON, id);
+
+  return imageJSON;
+})
+
 app.whenReady().then(() => {
   createWindow();
 

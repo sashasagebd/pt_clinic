@@ -1,37 +1,56 @@
 import type { Employee } from './types/Employee';
+import { useState, useEffect } from 'react';
+import Modal from './Modal';
 
 interface EmployeeProps {
     employee: Employee;
+    triggerRefresh: () => void;
 }
 
+function EmployeeModal({ employee, triggerRefresh } : EmployeeProps) {
 
-function EmployeeModal({ employee } : EmployeeProps) {
+    const [imgArr, setImgArr] = useState<string[]>([]);
+    const [currentImage, setCurrentImage] = useState<string>("");
 
-    function handleSelectImage() { //trigger electron file picker stuff
+    useEffect(() => {
+        if(employee.imgPath) {
+            setImgArr(JSON.parse(employee.imgPath));
+        }
+    }, [employee.imgPath])
 
+    async function handleSelectImage(id: number, imgPath: string) { //trigger electron file picker stuff
+        const path = await window.api.addImageExisting(id, imgPath);
+        if(path) {
+            setImgArr(JSON.parse(path));
+        }
+        triggerRefresh();
     }
-
-    let imgArr: string[] = [];
         
-    if(employee.imgPath) {
-        imgArr = JSON.parse(employee.imgPath);
-    }
-
     return(
-        <div>
+        <div className="">
             <div>
                 <h3 className="text-black">{employee.name}</h3>
             </div>
-            <div>
+            <div className="grid grid-cols-4 gap-4">
                 {
-                    imgArr.map((path) => {
-                        return <img src={`file:///${path.replace(/\\/g, '/')}`} />;
+                    imgArr.map((path, index) => {
+                        return(
+                            <img 
+                                key={index} 
+                                src={`file:///${path.replace(/\\/g, '/')}`} 
+                                className="w-full h-auto"
+                                onClick={() => {setCurrentImage(path)}}
+                            />
+                        )
                     })
                 }
             </div>
-            <button onClick={handleSelectImage}>
+            <button onClick={() => handleSelectImage(employee.id, employee.imgPath)}>
                 Add Images
             </button>
+            <Modal isOpen={currentImage !== ""} onClose={() => {setCurrentImage("")}}>
+                <img src={`file:///${currentImage.replace(/\\/g, '/')}`} />
+            </Modal>
         </div>
     )
 }

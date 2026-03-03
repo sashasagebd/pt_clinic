@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld('api', {
   addEmployee: (employee: { name: string; imgPath: string }) => ipcRenderer.invoke('add-employee', employee),
   addImage: () => ipcRenderer.invoke('add-image'),
   removeEmployee: (id: number) => ipcRenderer.invoke('remove-employee', id),
+  addImageExisting: (id: number, imgPath: string) => ipcRenderer.invoke('add-image-existing', id, imgPath),
 });

@@ -8,8 +8,8 @@ interface CardProps {
 function Card({ name, onClick }: CardProps) {
 
     return(
-        <div className="outline-solid">
-            <div onClick={onClick} className="max-w-sm bg-white p-6 m-3 rounded-md">
+        <div className="">
+            <div onClick={onClick} className="h-20 outline-solid flex items-center justify-center">
                 <p className="text-sky-800">{name}</p>
             </div>
         </div>
