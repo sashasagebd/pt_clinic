@@ -1,7 +1,5 @@
-import settingsIcon from './assets/settings.png';
 import Card from './Card';
 import Modal from './Modal';
-import Settings from './Settings';
 import EmployeeModal from './EmployeeModal';
 import EmployeeForm from './EmployeeForm'
 import { useState, useEffect } from 'react';
@@ -9,15 +7,13 @@ import type { Employee, NewEmployee } from './types/Employee';
 
 
 function Home() {
-    const [showSettings, setShowSettings] = useState<boolean>(false);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
     const [showAddEmployee, setShowAddEmployee] = useState<boolean>(false);
     const [checked, setChecked] = useState<Employee[]>([]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
-
-    //const arr = [Practicum, Observation, Internship];
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -34,8 +30,27 @@ function Home() {
         loadEmployees();
     }, [refresh]);
 
+    useEffect(() => {
+        const checkLogin = async () => {
+            const result: boolean = await window.api.getLogin();
+            setLoggedIn(result)
+        };
+
+        checkLogin();
+    }, []);
+
     function triggerRefresh() {
         setRefresh(!refresh);
+    }
+
+    async function handleLogin() {
+        const result: boolean = await window.api.getLogin();
+        setLoggedIn(result)
+    }
+
+    async function sendEmails() {
+        console.log(checked);
+        await window.api.sendEmails(checked);
     }
 
     async function handleAddEmployee(newEmployee: NewEmployee) {
@@ -70,11 +85,12 @@ function Home() {
     //map cards w employees
     return(
         <>
-            <img 
-                src={settingsIcon} 
-                className="absolute top-0 right-0 w-10 h-10 p-1" 
-                onClick={() => setShowSettings(true)}
-            />
+            <button 
+                className="absolute top-0 right-0 p-1" 
+                onClick={handleLogin}
+            >
+                {loggedIn ? "Logged in" : "Log in"}
+            </button>
 
             <p>Search</p>
             <input className="mb-4 outline outline-black" type="text" value={search} onChange={handleChange} />
@@ -103,14 +119,14 @@ function Home() {
                     <EmployeeModal employee={currentEmployee} triggerRefresh={triggerRefresh} />
                 )}
             </Modal>
-            <Modal isOpen={showSettings} onClose={() => setShowSettings(false)}>
-                <Settings />
-            </Modal>
             <Modal isOpen={showAddEmployee} onClose={() => setShowAddEmployee(false)}>
                 <EmployeeForm submitEmployeeData={handleAddEmployee}/>
             </Modal>
             <button className="mt-4" onClick={() => {setShowAddEmployee(true)}}>
                 Add Employee
+            </button>
+            <button className="mt-4" onClick={() => sendEmails()}>
+                Send Emails
             </button>
         </>
     )

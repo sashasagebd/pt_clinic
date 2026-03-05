@@ -11,13 +11,17 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
     "@electron-forge/plugin-fuses": "^7.11.1",
     "@electron/fuses": "^1.8.0",
+    "@types/mime-types": "^3.0.1",
     "@types/node": "^25.3.2",
     "electron": "^40.6.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "better-sqlite3": "^12.6.2",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "googleapis": "^171.4.0",
+    "mime-types": "^3.0.2",
+    "open": "^11.0.0"
   },
   "scripts": {
     "start": "electron-forge start",

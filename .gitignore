@@ -3,3 +3,4 @@ dist/
 .vite/
 *.sqlite
 *.log
+credentials.ts

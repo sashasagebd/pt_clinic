@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import db from './db/database.js';
+import { getCredentials, sendEmail } from './gmail/oauth.js';
+import type { Employee } from './types/Employee.js';
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -28,6 +30,29 @@ function createWindow() {
     win.webContents.openDevTools();
   }
 }
+
+ipcMain.handle('gmail-login', async () => {
+  try {
+    const authClient = await getCredentials();
+    return true;
+  }
+  catch(err) {
+    console.error(err);
+    return false;
+  }
+});
+
+ipcMain.handle('gmail-send', async (event, employees: Employee[]) => {
+  for(let employee of employees) {
+    try {
+      await sendEmail(employee);
+    }
+    catch(err) {
+      console.error(err);
+    }
+  }
+});
+
 
 ipcMain.handle('add-image', async (event) => {
   const win = BrowserWindow.fromWebContents(event.sender); //ensure dev mode works
