@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import db from './db/database.js';
-import { getCredentials, sendEmail } from './gmail/oauth.js';
+import { getCredentials, sendEmail, logOut } from './gmail/oauth.js';
 import type { Employee } from './types/Employee.js';
 
 function createWindow() {
@@ -25,11 +25,21 @@ function createWindow() {
 
   win.loadURL(startURL);
 
-  // Optional: open dev tools in dev
   if (process.env.NODE_ENV === 'development') {
     win.webContents.openDevTools();
   }
 }
+
+ipcMain.handle('gmail-logout', async () => {
+  try {
+    await logOut();
+    return true;
+  }
+  catch(err) {
+    console.error(err);
+    return false;
+  }
+})
 
 ipcMain.handle('gmail-login', async () => {
   try {

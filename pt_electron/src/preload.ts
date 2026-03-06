@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld('api', {
   addImageExisting: (id: number, imgPath: string) => ipcRenderer.invoke('add-image-existing', id, imgPath),
   getLogin: () => ipcRenderer.invoke('gmail-login'),
   sendEmails: (employee: Employee[]) => ipcRenderer.invoke('gmail-send', employee),
+  logOut: () => ipcRenderer.invoke('gmail-logout'),
 });

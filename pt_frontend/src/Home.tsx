@@ -44,8 +44,14 @@ function Home() {
     }
 
     async function handleLogin() {
-        const result: boolean = await window.api.getLogin();
-        setLoggedIn(result)
+        if(loggedIn) {
+            const result: boolean = await window.api.logOut();
+            setLoggedIn(!result);
+        }
+        else {
+            const result: boolean = await window.api.getLogin();
+            setLoggedIn(result);
+        }
     }
 
     async function sendEmails() {

@@ -19,6 +19,9 @@ const oauth2Client = new google.auth.OAuth2(
     REDIRECT_URI
 );
 
+export async function logOut() {
+    await deleteTokens();
+}
 
 export async function getCredentials() {
     const tokens = await loadTokens();
@@ -78,6 +81,7 @@ export async function sendEmail(employee: Employee) {
 
     const boundary = `mixed_${crypto.randomUUID()}`;
     const body = `${employee.name}, ${employee.type}`;
+    const subject = `${employee.name}`
 
     const attachments: string[] = [];
 
