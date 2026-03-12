@@ -7,7 +7,7 @@ type EmployeeFormProps = {
 
 function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
     const [name, setName] = useState<string>("");
-    const [imagePath, setImagePath] = useState<string>("") //change to arr of strings later
+    const [imagePath, setImagePath] = useState<string>("");
     const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
     const [imgArr, setImgArr] = useState<string[]>([]);
 

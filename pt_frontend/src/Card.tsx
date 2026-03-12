@@ -2,14 +2,14 @@
 
 interface CardProps {
     name: string;
-    onClick: () => void; //expecting function returning void
+    onClick: () => void;
 }
 
 function Card({ name, onClick }: CardProps) {
 
     return(
-        <div className="">
-            <div onClick={onClick} className="h-20 outline-solid flex items-center justify-center">
+        <div className="employee-card">
+            <div onClick={() => { onClick(); } } className="h-20 outline-solid flex items-center justify-center">
                 <p className="text-sky-800">{name}</p>
             </div>
         </div>
