@@ -14,6 +14,7 @@ function Home() {
     const [refresh, setRefresh] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const [showSentEmails, setShowSentEmails] = useState<boolean>(false);
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -56,7 +57,11 @@ function Home() {
 
     async function sendEmails() {
         console.log(checked);
-        await window.api.sendEmails(checked);
+        const sent = await window.api.sendEmails(checked);
+        if(sent) {
+            console.log("Emails sent!");
+            setShowSentEmails(true);
+        }
     }
 
     async function handleAddEmployee(newEmployee: NewEmployee) {
@@ -127,6 +132,9 @@ function Home() {
             </Modal>
             <Modal isOpen={showAddEmployee} onClose={() => setShowAddEmployee(false)}>
                 <EmployeeForm submitEmployeeData={handleAddEmployee}/>
+            </Modal>
+            <Modal isOpen={showSentEmails} onClose={() => setShowSentEmails(false)}>
+                <h2>Emails were sent!</h2>
             </Modal>
             <button className="mt-4" onClick={() => {setShowAddEmployee(true)}}>
                 Add Employee

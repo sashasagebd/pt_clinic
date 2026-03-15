@@ -73,61 +73,66 @@ async function oauthLogin() {
 
 
 export async function sendEmail(employee: Employee) {
-    const auth = await getCredentials();
-    const gmail = google.gmail({
-        version: 'v1',
-        auth
-    });
+    try {
+        const auth = await getCredentials();
+        const gmail = google.gmail({
+            version: 'v1',
+            auth
+        });
 
-    const boundary = `mixed_${crypto.randomUUID()}`;
-    const body = `${employee.name}, ${employee.type}`;
-    const subject = `${employee.name}`
+        const boundary = `mixed_${crypto.randomUUID()}`;
+        const body = `${employee.name}, ${employee.type}`;
+        const subject = `${employee.name}`
 
-    const attachments: string[] = [];
+        const attachments: string[] = [];
 
-    const imgPaths: string[] = JSON.parse(employee.imgPath);
+        const imgPaths: string[] = JSON.parse(employee.imgPath);
 
-    for (const path of imgPaths) {
-        const base64 = fs.readFileSync(path).toString("base64");
-        const filename = path.split(/[\\/]/).pop();
+        for (const path of imgPaths) {
+            const base64 = fs.readFileSync(path).toString("base64");
+            const filename = path.split(/[\\/]/).pop();
 
-        const mimeType = mime.lookup(path) || "application/octet-stream";
+            const mimeType = mime.lookup(path) || "application/octet-stream";
 
-        attachments.push(
-            `--${boundary}`,
-            `Content-Type: ${mimeType}`,
-            `Content-Transfer-Encoding: base64`,
-            `Content-Disposition: attachment; filename="${filename}"`,
-            ``,
-            base64,
-            ``
-        );
+            attachments.push(
+                `--${boundary}`,
+                `Content-Type: ${mimeType}`,
+                `Content-Transfer-Encoding: base64`,
+                `Content-Disposition: attachment; filename="${filename}"`,
+                ``,
+                base64,
+                ``
+            );
+        }
+
+        const rawMessage = [
+        `From: me`,
+        `To: sashasagebd@gmail.com`,
+        `Subject: Test`,
+        'MIME-Version: 1.0',
+        `Content-Type: multipart/mixed; boundary="${boundary}"`,
+        '',
+        `--${boundary}`,
+        'Content-Type: text/plain; charset="UTF-8"',
+        '',
+        body,
+        '',
+        ...attachments,
+        `--${boundary}--`,
+        ].join('\r\n');
+
+        const encodedMessage = Buffer.from(rawMessage)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+        await gmail.users.messages.send({
+        userId: 'me',
+        requestBody: { raw: encodedMessage },
+        });
+
+    } catch(err) {
+        console.error(err);
     }
-
-    const rawMessage = [
-    `From: me`,
-    `To: sashasagebd@gmail.com`,
-    `Subject: Test`,
-    'MIME-Version: 1.0',
-    `Content-Type: multipart/mixed; boundary="${boundary}"`,
-    '',
-    `--${boundary}`,
-    'Content-Type: text/plain; charset="UTF-8"',
-    '',
-    body,
-    '',
-    ...attachments,
-    `--${boundary}--`,
-    ].join('\r\n');
-
-    const encodedMessage = Buffer.from(rawMessage)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-
-    await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: { raw: encodedMessage },
-    });
 }

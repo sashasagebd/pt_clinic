@@ -11,7 +11,7 @@ declare global {
             removeEmployee: (id: number) => void;
             addImageExisting: (id: number, imgPath: string) => Promise<string | null>;
             getLogin: () => Promise<boolean>;
-            sendEmails: (employee: Employee[]) => void;
+            sendEmails: (employee: Employee[]) => boolean;
             logOut: () => Promise<boolean>;
         }
     }

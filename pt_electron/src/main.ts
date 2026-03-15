@@ -53,14 +53,16 @@ ipcMain.handle('gmail-login', async () => {
 });
 
 ipcMain.handle('gmail-send', async (event, employees: Employee[]) => {
-  for(let employee of employees) {
     try {
-      await sendEmail(employee);
+      for(let employee of employees) {
+        await sendEmail(employee);
+      }
+      return true;
     }
     catch(err) {
       console.error(err);
+      return false;
     }
-  }
 });
 
 
