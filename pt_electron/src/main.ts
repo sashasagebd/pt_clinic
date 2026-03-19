@@ -16,16 +16,14 @@ function createWindow() {
     },
   });
 
-  const frontendDistPath = path.resolve(__dirname, '../../pt_frontend/dist/index.html');
-
-  const startURL =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:5173' // Vite dev server
-      : `file://${frontendDistPath}`;
-
-  win.loadURL(startURL);
-
-  if (process.env.NODE_ENV === 'development') {
+  const isProd = app.isPackaged;
+  const frontendDistPath = path.resolve(__dirname, '../dist/index.html');
+  
+  if (isProd) {
+    win.loadFile(frontendDistPath);
+  }
+  else {
+    win.loadURL('http://localhost:5173');
     win.webContents.openDevTools();
   }
 }

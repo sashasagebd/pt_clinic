@@ -1,7 +1,9 @@
 {
   "version": "0.0.0",
-  "main": "dist/main.js",
+  "main": "electron-dist/main.js",
   "name": "pt_tool",
+  "description": "Tool made to help organize and send out intern hours and information",
+  "author": "Sasha Bearman-Drummond",
   "devDependencies": {
     "@electron-forge/cli": "^7.11.1",
     "@electron-forge/maker-deb": "^7.11.1",
@@ -26,6 +28,10 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "build": "npm run build:frontend && npm run copy:frontend && npm run build:electron",
+    "build:frontend": "cd ../pt_frontend && npm run build",
+    "copy:frontend": "rm -rf ./dist && cp -r ../pt_frontend/dist ./dist",
+    "build:electron": "tsc"
   }
 }

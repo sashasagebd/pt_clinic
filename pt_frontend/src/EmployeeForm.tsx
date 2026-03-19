@@ -41,7 +41,7 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
 
     return(
         <div>
-            <form className="flex flex-col items-center gap-2">
+            <form className="flex flex-col items-center">
                 <label htmlFor="name">Name</label>
                 <input className="outline outline-black" id="name" type="text" value={name} onChange={handleChange}/><br/>
 
@@ -70,7 +70,7 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
                 }
                 </div>
 
-                <button type="button" onClick={handleSelectImage}>Add Images</button><br/>
+                <button type="button" className="mt-2" onClick={handleSelectImage}>Add Images</button><br/>
                 
                 <button type="button" onClick={handleSubmit}>Add Employee</button>
             </form>

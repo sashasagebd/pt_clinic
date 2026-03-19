@@ -15,6 +15,7 @@ function Home() {
     const [search, setSearch] = useState<string>("");
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [showSentEmails, setShowSentEmails] = useState<boolean>(false);
+    const [sentEmailMessage, setSentEmailMessage] = useState<string>("");
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -57,9 +58,18 @@ function Home() {
 
     async function sendEmails() {
         console.log(checked);
-        const sent = await window.api.sendEmails(checked);
-        if(sent) {
-            console.log("Emails sent!");
+        if(checked.length === 0) {
+            setSentEmailMessage("No emails selected");
+            setShowSentEmails(true);
+        }
+        else {
+            const sent = await window.api.sendEmails(checked);
+            if(sent) {
+                setSentEmailMessage("Emails were sent!");
+            }
+            else {
+                setSentEmailMessage("Error sending emails, check developer console for specific errors");
+            }
             setShowSentEmails(true);
         }
     }
@@ -95,9 +105,9 @@ function Home() {
 
     //map cards w employees
     return(
-        <>
+        <div className="flex flex-col items-center justify-center min-h-screen">
             <button 
-                className="absolute top-0 right-0 p-1" 
+                className="absolute top-0 right-0 p-1 m-2" 
                 onClick={handleLogin}
             >
                 {loggedIn ? "Logged in" : "Log in"}
@@ -134,7 +144,7 @@ function Home() {
                 <EmployeeForm submitEmployeeData={handleAddEmployee}/>
             </Modal>
             <Modal isOpen={showSentEmails} onClose={() => setShowSentEmails(false)}>
-                <h2>Emails were sent!</h2>
+                <h2>{sentEmailMessage}</h2>
             </Modal>
             <button className="mt-4" onClick={() => {setShowAddEmployee(true)}}>
                 Add Employee
@@ -142,7 +152,7 @@ function Home() {
             <button className="mt-4" onClick={() => sendEmails()}>
                 Send Emails
             </button>
-        </>
+        </div>
     )
 }
 
