@@ -30,11 +30,10 @@ function EmployeeModal({ employee, triggerRefresh } : EmployeeProps) {
     }
         
     return(
-        <div className="flex flex-col items-center">
-            <div>
-                <h3 className="text-black">{employee.name}</h3>
-                <p className="text-black">{employee.type}</p>
-            </div>
+        <div className="flex flex-col items-center gap-2">
+            <h1>{employee.name}</h1>
+            <h3>{employee.email}</h3>
+            <p>{employee.type}</p>
             <div className="grid grid-cols-4 gap-4">
                 {
                     imgArr.map((path, index) => {

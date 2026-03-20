@@ -83,6 +83,7 @@ export async function sendEmail(employee: Employee) {
         const boundary = `mixed_${crypto.randomUUID()}`;
         const body = `${employee.name}, ${employee.type}`;
         const subject = `${employee.name}`
+        const to = `${employee.email}`
 
         const attachments: string[] = [];
 
@@ -107,7 +108,7 @@ export async function sendEmail(employee: Employee) {
 
         const rawMessage = [
         `From: me`,
-        `To: sashasagebd@gmail.com`,
+        `To: ${to}`,
         `Subject: Test`,
         'MIME-Version: 1.0',
         `Content-Type: multipart/mixed; boundary="${boundary}"`,

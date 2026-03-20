@@ -8,28 +8,6 @@
   background-color:darkgrey;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #292525;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -41,6 +19,45 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.theme-gray {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #292525;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.theme-gray button {
+  background-color: #1a1a1a;
+}
+
+.theme-gray button:hover {
+  background-color: darkgrey;
+}
+
+.theme-white {
+  margin: 0;
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.87);
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.theme-white button {
+  background-color: #c7a9a9;
+}
+
+.theme-white button:hover {
+  background-color: rgb(39, 32, 32);
+}
+
+h1 {
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+
 
 button:hover {
   background-color: darkgrey;

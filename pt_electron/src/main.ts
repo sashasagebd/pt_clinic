@@ -5,10 +5,15 @@ import db from './db/database.js';
 import { getCredentials, sendEmail, logOut } from './gmail/oauth.js';
 import type { Employee } from './types/Employee.js';
 
+if (require('electron-squirrel-startup')) {
+  app.quit();
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
+    title: "Intern Manager",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'), // preload for safe IPC
       nodeIntegration: false,                      // security best practice
@@ -106,9 +111,9 @@ ipcMain.handle('get-employees', () => {
   return db.prepare('SELECT * FROM employees').all();
 });
 
-ipcMain.handle('add-employee', (event, employee: { name: string; imgPath: string; type: string }) => {
-  const stmt = db.prepare('INSERT INTO employees (name, imagePath, type) VALUES (?, ?, ?)');
-  stmt.run(employee.name, employee.imgPath, employee.type);
+ipcMain.handle('add-employee', (event, employee: { name: string; email: string, imgPath: string; type: string }) => {
+  const stmt = db.prepare('INSERT INTO employees (name, email, imagePath, type) VALUES (?, ?, ?, ?)');
+  stmt.run(employee.name, employee.email, employee.imgPath, employee.type);
 });
 
 ipcMain.handle('remove-employee', (event, id: number) => {

@@ -7,6 +7,7 @@ type EmployeeFormProps = {
 
 function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
     const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [imagePath, setImagePath] = useState<string>("");
     const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
     const [imgArr, setImgArr] = useState<string[]>([]);
@@ -26,8 +27,12 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
     }
 
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
         setName(e.target.value);
+    }
+
+    function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setEmail(e.target.value);
     }
 
     function handleSubmit() {
@@ -36,14 +41,17 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
         );
 
         const type = selectedType?.label ?? "";
-        submitEmployeeData({name, imgPath: imagePath, type});
+        submitEmployeeData({name, email, imgPath: imagePath, type});
     }
 
     return(
         <div>
             <form className="flex flex-col items-center">
                 <label htmlFor="name">Name</label>
-                <input className="outline outline-black" id="name" type="text" value={name} onChange={handleChange}/><br/>
+                <input className="outline outline-black" id="name" type="text" value={name} onChange={handleNameChange}/><br/>
+
+                <label htmlFor="email">Email</label>
+                <input className="outline outline-black" id="email" type="text" value={email} onChange={handleEmailChange}/><br/>
 
                 {employeeTypes.map(type => (
                     <label key={type.id} className="flex items-center gap-2">

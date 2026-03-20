@@ -2,6 +2,7 @@ import Card from './Card';
 import Modal from './Modal';
 import EmployeeModal from './EmployeeModal';
 import EmployeeForm from './EmployeeForm'
+import ColorPicker from './ColorPicker';
 import { useState, useEffect } from 'react';
 import type { Employee, NewEmployee } from './types/Employee';
 
@@ -16,6 +17,7 @@ function Home() {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [showSentEmails, setShowSentEmails] = useState<boolean>(false);
     const [sentEmailMessage, setSentEmailMessage] = useState<string>("");
+    const [color, setColor] = useState<string>("theme-gray");
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -23,6 +25,7 @@ function Home() {
             const mapped = employeeArray.map(e => ({
                 id: e.id,
                 name: e.name,
+                email: e.email,
                 imgPath: e.imagePath || '',
                 type: e.type,
             }));
@@ -99,19 +102,25 @@ function Home() {
         setSearch(e.target.value);
     }
 
+    function handleColorSelect(color: string) {
+        setColor(color);
+    }
+
     const filteredEmployees = employees.filter(employee =>
         employee.name.toLowerCase().includes(search.toLowerCase())
     );
 
     //map cards w employees
     return(
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className={`flex flex-col items-center justify-center min-h-screen ${color}`}>
             <button 
                 className="absolute top-0 right-0 p-1 m-2" 
                 onClick={handleLogin}
             >
                 {loggedIn ? "Logged in" : "Log in"}
             </button>
+
+            <ColorPicker setColor={handleColorSelect}></ColorPicker>
 
             <p>Search</p>
             <input className="mb-4 outline outline-black" type="text" value={search} onChange={handleChange} />
