@@ -123,7 +123,7 @@ function Home() {
             <ColorPicker setColor={handleColorSelect}></ColorPicker>
 
             <p>Search</p>
-            <input className="mb-4 outline outline-black" type="text" value={search} onChange={handleChange} />
+            <input className="mb-4 outline-2 outline-black rounded-sm" type="text" value={search} onChange={handleChange} />
             
             <div className="flex flex-col gap-4">
                 {

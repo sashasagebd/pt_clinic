@@ -27,11 +27,9 @@ button {
   min-width: 320px;
   min-height: 100vh;
 }
-
 .theme-gray button {
   background-color: #1a1a1a;
 }
-
 .theme-gray button:hover {
   background-color: darkgrey;
 }
@@ -43,12 +41,38 @@ button {
   min-width: 320px;
   min-height: 100vh;
 }
-
 .theme-white button {
   background-color: #c7a9a9;
 }
-
 .theme-white button:hover {
+  background-color: rgb(39, 32, 32);
+}
+
+.theme-teal {
+  margin: 0;
+  color: white;
+  background-color: #00897B;
+  min-width: 320px;
+  min-height: 100vh;
+}
+.theme-teal button {
+  background-color: #1a1a1a;
+}
+.theme-teal button:hover {
+  background-color: darkgrey;
+}
+
+.theme-red {
+  margin: 0;
+  color: black;
+  background-color: #EF5350;
+  min-width: 320px;
+  min-height: 100vh;
+}
+.theme-red button {
+  background-color: #c7a9a9;
+}
+.theme-red button:hover {
   background-color: rgb(39, 32, 32);
 }
 
@@ -56,8 +80,6 @@ h1 {
   font-size: 1.5rem;
   line-height: 1.1;
 }
-
-
 
 button:hover {
   background-color: darkgrey;
