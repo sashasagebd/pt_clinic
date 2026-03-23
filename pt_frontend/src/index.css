@@ -15,19 +15,19 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 .theme-gray {
   margin: 0;
-  color: rgba(255, 255, 255, 0.87);
+  color: white;
   background-color: #292525;
   min-width: 320px;
   min-height: 100vh;
 }
 .theme-gray button {
+  color: white;
   background-color: #1a1a1a;
 }
 .theme-gray button:hover {
@@ -42,10 +42,11 @@ button {
   min-height: 100vh;
 }
 .theme-white button {
-  background-color: #c7a9a9;
+  color: white;
+  background-color: #000000;
 }
 .theme-white button:hover {
-  background-color: rgb(39, 32, 32);
+  background-color: darkgray;
 }
 
 .theme-teal {
@@ -56,6 +57,7 @@ button {
   min-height: 100vh;
 }
 .theme-teal button {
+  color: white;
   background-color: #1a1a1a;
 }
 .theme-teal button:hover {
@@ -65,15 +67,16 @@ button {
 .theme-red {
   margin: 0;
   color: black;
-  background-color: #EF5350;
+  background-color: #9c403f;
   min-width: 320px;
   min-height: 100vh;
 }
 .theme-red button {
-  background-color: #c7a9a9;
+  color: white;
+  background-color: #000000;
 }
 .theme-red button:hover {
-  background-color: rgb(39, 32, 32);
+  background-color: rgb(110, 103, 103);
 }
 
 h1 {

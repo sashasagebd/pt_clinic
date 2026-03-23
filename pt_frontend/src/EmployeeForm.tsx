@@ -46,12 +46,12 @@ function EmployeeForm({ submitEmployeeData } : EmployeeFormProps) {
 
     return(
         <div>
-            <form className="flex flex-col items-center">
+            <form className="flex flex-col items-center text-black">
                 <label htmlFor="name">Name</label>
-                <input className="outline outline-black" id="name" type="text" value={name} onChange={handleNameChange}/><br/>
+                <input className="outline outline-black rounded-sm" id="name" type="text" value={name} onChange={handleNameChange}/><br/>
 
                 <label htmlFor="email">Email</label>
-                <input className="outline outline-black" id="email" type="text" value={email} onChange={handleEmailChange}/><br/>
+                <input className="outline outline-black rounded-sm" id="email" type="text" value={email} onChange={handleEmailChange}/><br/>
 
                 {employeeTypes.map(type => (
                     <label key={type.id} className="flex items-center gap-2">

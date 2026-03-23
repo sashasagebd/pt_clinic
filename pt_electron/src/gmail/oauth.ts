@@ -109,7 +109,7 @@ export async function sendEmail(employee: Employee) {
         const rawMessage = [
         `From: me`,
         `To: ${to}`,
-        `Subject: Test`,
+        `Subject: Hour Sheets`,
         'MIME-Version: 1.0',
         `Content-Type: multipart/mixed; boundary="${boundary}"`,
         '',

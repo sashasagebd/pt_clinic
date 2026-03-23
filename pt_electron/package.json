@@ -1,7 +1,8 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "electron-dist/main.js",
   "name": "pt_intern_tool",
+  "productName": "PT Intern Manager",
   "description": "Tool made to help organize and send out intern hours and information",
   "author": "Sasha Bearman-Drummond",
   "devDependencies": {
@@ -35,6 +36,9 @@
     "build:electron": "tsc"
   },
    "forge": {
+    "packagerConfig": {
+      "icon": "./build/icons/pt_logo.ico"
+    },
     "makers": [
       {
         "name": "@electron-forge/maker-squirrel",
@@ -44,7 +48,6 @@
           "shortcutName": "PT Intern Manager"
         }
       }
-    ],
-    "productName": "PT Intern Manager"
+    ]
   }
 }

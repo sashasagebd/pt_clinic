@@ -60,8 +60,11 @@ function Home() {
     }
 
     async function sendEmails() {
-        console.log(checked);
-        if(checked.length === 0) {
+        if(!loggedIn) {
+            setSentEmailMessage("Log in to send emails");
+            setShowSentEmails(true);
+        }
+        else if(checked.length === 0) {
             setSentEmailMessage("No emails selected");
             setShowSentEmails(true);
         }
@@ -130,7 +133,7 @@ function Home() {
                 filteredEmployees.map((employee) => {   
                     return (
                         <div key={employee.id} className="grid grid-cols-[1fr_4fr_1fr] items-center gap-2">
-                            <input type="checkbox" checked={checked.some(emp => emp.id === employee.id)} onClick={() => {handleChecked(employee)}} />
+                            <input type="checkbox" checked={checked.some(emp => emp.id === employee.id)} onChange={() => handleChecked(employee)} />
                             <Card 
                                 onClick={ () => 
                                 { 
@@ -153,7 +156,7 @@ function Home() {
                 <EmployeeForm submitEmployeeData={handleAddEmployee}/>
             </Modal>
             <Modal isOpen={showSentEmails} onClose={() => setShowSentEmails(false)}>
-                <h2>{sentEmailMessage}</h2>
+                <h2 className="text-black">{sentEmailMessage}</h2>
             </Modal>
             <button className="mt-4" onClick={() => {setShowAddEmployee(true)}}>
                 Add Employee

@@ -30,7 +30,7 @@ function EmployeeModal({ employee, triggerRefresh } : EmployeeProps) {
     }
         
     return(
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 color-black">
             <h1>{employee.name}</h1>
             <h3>{employee.email}</h3>
             <p>{employee.type}</p>

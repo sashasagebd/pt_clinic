@@ -14,6 +14,7 @@ function createWindow() {
     width: 1024,
     height: 768,
     title: "Intern Manager",
+    icon: path.join(__dirname, '../build/icons/pt_logo.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'), // preload for safe IPC
       nodeIntegration: false,                      // security best practice
